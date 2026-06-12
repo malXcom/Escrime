@@ -33,4 +33,17 @@ public class GuardAndEdgeCaseTests
         act.Should().Throw<ArgumentNullException>()
            .WithParameterName("matches");
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-009")]
+    [Trait("TestCase", "TC-017")]
+    public void CalculateScore_NegativePenalty_ThrowsArgumentException()
+    {
+        var matches = new List<MatchResult> { Win };
+
+        Action act = () => _calculator.CalculateScore(matches, penaltyPoints: -5);
+
+        act.Should().Throw<ArgumentException>()
+           .WithParameterName("penaltyPoints");
+    }
 }
