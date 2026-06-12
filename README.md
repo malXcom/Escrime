@@ -39,3 +39,7 @@ dotnet restore
 dotnet build
 dotnet test --collect:"XPlat Code Coverage"
 
+```bash
+cd escrime-web
+bun install
+bun run dev
