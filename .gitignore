@@ -32,3 +32,46 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Finder (MacOS) folder config
 .DS_Store
+
+*.sln.iml
+
+## Build outputs
+bin/
+obj/
+out/
+
+## .NET specifics
+*.user
+*.suo
+*.userprefs
+*.userosscache
+*.sln.docstates
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## NuGet
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+
+## Visual Studio
+.vs/
+*.vcxproj.filters
+
+## OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+coverage.xml
+
+## Databases
+*.db
+*.db-shm
+*.db-wal
