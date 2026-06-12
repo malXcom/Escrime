@@ -12,45 +12,60 @@ permissions:
   pull-requests: write # pour commenter les PR avec la couverture
 
 jobs:
-  # ─────────────────────────────────────────────
-  # Job 1 : Build & Tests .NET + couverture
-  # ─────────────────────────────────────────────
-  dotnet-ci:
-    name: ".NET 9 — Build, Tests & Couverture"
+  # ─────────────────────────────────────────────────────────────
+  # JOB 1 : Initialisation, Restauration & Formatage (Lint)
+  # ─────────────────────────────────────────────────────────────
+  setup-and-lint:
+    name: "⚙️ Setup & Lint"
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── SDK .NET ──
       - name: Installer .NET 9
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.0.x"
 
-      # ── Cache NuGet ──
       - name: Cache NuGet
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.sln') }}
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      # ── Restauration ──
       - name: Restaurer les dépendances
         run: dotnet restore EscrimeGame.sln
 
-      # ── Build ──
-      - name: Build (Release)
-        run: dotnet build EscrimeGame.sln --no-restore --configuration Release
+      - name: Vérifier le formatage du code
+        run: dotnet format EscrimeGame.sln --verify-no-changes --severity info
 
-      # ── Tests + couverture (format Cobertura) ──
+  # ─────────────────────────────────────────────────────────────
+  # JOB 2 : Tests, Couverture de code & Rapports
+  # ─────────────────────────────────────────────────────────────
+  test:
+    name: "🧪 Tests & Couverture"
+    runs-on: ubuntu-latest
+    needs: setup-and-lint # S'exécute uniquement si le setup/lint est OK
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.sln') }}
+
       - name: Exécuter les tests avec couverture
         run: >
           dotnet test EscrimeGame.sln
-          --no-build
           --configuration Release
           --logger "trx;LogFileName=test-results.trx"
           --collect:"XPlat Code Coverage"
@@ -58,7 +73,7 @@ jobs:
           --
           DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
-      # ── Rapport HTML + résumé Markdown via ReportGenerator ──
+      # ── Génération des rapports ──
       - name: Générer le rapport de couverture
         uses: danielpalme/ReportGenerator-GitHub-Action@5
         with:
@@ -67,11 +82,9 @@ jobs:
           reporttypes: "HtmlInline;MarkdownSummaryGithub;Cobertura"
           verbosity: "Warning"
 
-      # ── Publier le résumé dans GitHub Actions Job Summary ──
       - name: Publier la couverture dans le Job Summary
         run: cat TestResults/CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
-      # ── Commenter la PR avec le delta de couverture (si PR) ──
       - name: Commenter la PR avec la couverture
         if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
@@ -79,7 +92,7 @@ jobs:
           recreate: true
           path: TestResults/CoverageReport/SummaryGithub.md
 
-      # ── Publier les résultats de test dans l'UI GitHub ──
+      # Toujours publier les résultats, même si les tests échouent
       - name: Publier les résultats de test (.trx)
         uses: dorny/test-reporter@v1
         if: always()
@@ -89,7 +102,6 @@ jobs:
           reporter: dotnet-trx
           fail-on-error: true
 
-      # ── Archiver le rapport HTML complet ──
       - name: Archiver le rapport de couverture HTML
         uses: actions/upload-artifact@v4
         if: always()
@@ -97,3 +109,36 @@ jobs:
           name: coverage-report
           path: TestResults/CoverageReport/
           retention-days: 14
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 3 : Build Final (Release)
+  # ─────────────────────────────────────────────────────────────
+  build:
+    name: "📦 Build App"
+    runs-on: ubuntu-latest
+    needs: test # Ne build que si les tests passent
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/*.sln') }}
+
+      - name: Build (Release)
+        run: dotnet build EscrimeGame.sln --configuration Release
+
+      # Optionnel : Si vous souhaitez sauvegarder les fichiers exécutables produits
+      - name: Archiver les binaires de l'application
+        uses: actions/upload-artifact@v4
+        with:
+          name: escrime-game-binaries
+          path: "**/bin/Release/net9.0/"
+          retention-days: 7
