@@ -42,7 +42,7 @@ public class StreakBonusTests
         var matches = new List<MatchResult> { Win, Win, Loss, Win };
 
         var score = _calculator.CalculateScore(matches);
-        
+
         score.Should().Be(9, "la défaite interrompt la série → aucun bonus (3+3+0+3)");
     }
 

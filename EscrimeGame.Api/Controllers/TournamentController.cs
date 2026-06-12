@@ -24,7 +24,8 @@ public class TournamentController : ControllerBase
         var ranked = _ranking.GetRanking(players);
         var calculator = new ScoreCalculator();
 
-        var result = ranked.Select(p => new {
+        var result = ranked.Select(p => new
+        {
             player = p,
             totalScore = calculator.CalculateScore(p.Matches, p.IsDisqualified, p.PenaltyPoints)
         });
@@ -80,7 +81,7 @@ public class TournamentController : ControllerBase
         }
 
         var random = new Random();
-        
+
         // Tirer deux joueurs au hasard
         int index1 = random.Next(players.Count);
         int index2;
@@ -124,7 +125,8 @@ public class TournamentController : ControllerBase
         if (p1.Id == p2.Id)
             return BadRequest("Un joueur ne peut pas se battre contre lui-même.");
 
-        return Ok(new {
+        return Ok(new
+        {
             player1 = p1,
             player2 = p2
         });

@@ -47,7 +47,7 @@ public class BaseScoringTests
 
         score.Should().Be(3, "3 nuls × 1 point");
     }
-    
+
     [Fact]
     [Trait("Requirement", "REQ-E-002")]
     [Trait("TestCase", "TC-004")]

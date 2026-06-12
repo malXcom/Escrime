@@ -11,7 +11,7 @@ namespace EscrimeGame.Tests;
 /// </summary>
 internal static class MatchResults
 {
-    public static MatchResult Win  => new(MatchResult.Result.Win);
+    public static MatchResult Win => new(MatchResult.Result.Win);
     public static MatchResult Draw => new(MatchResult.Result.Draw);
     public static MatchResult Loss => new(MatchResult.Result.Loss);
 }

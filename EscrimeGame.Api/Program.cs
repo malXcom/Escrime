@@ -44,7 +44,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EscrimeDbContext>();
-    
+
     // Applique automatiquement les migrations (crée la BDD si elle n'existe pas)
     context.Database.Migrate();
 

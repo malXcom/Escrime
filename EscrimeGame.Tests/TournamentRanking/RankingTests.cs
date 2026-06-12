@@ -15,9 +15,9 @@ public class RankingTests
     public void GetRanking_ThreePlayers_OrdersByScoreDescending()
     {
         var merlin = new Player { Name = "Merlin", Matches = new List<MatchResult> { Win, Win, Win } };
-        var blackKnight   = new Player { Name = "Chevalier Noir",   Matches = new List<MatchResult> { Win, Win, Draw } };
+        var blackKnight = new Player { Name = "Chevalier Noir", Matches = new List<MatchResult> { Win, Win, Draw } };
         var lancelot = new Player { Name = "Lancelot", Matches = new List<MatchResult> { Win, Draw, Loss } };
-        
+
         var ranking = _ranking.GetRanking(new List<Player> { lancelot, merlin, blackKnight });
 
         ranking.Select(p => p.Name).Should().Equal("Merlin", "Chevalier Noir", "Lancelot");
@@ -29,7 +29,7 @@ public class RankingTests
     public void GetRanking_TiedScores_KeepsStableOrder()
     {
         var merlin = new Player { Name = "Merlin", Matches = new List<MatchResult> { Win, Win } };
-        var lancelot   = new Player { Name = "Lancelot",   Matches = new List<MatchResult> { Win, Win } };
+        var lancelot = new Player { Name = "Lancelot", Matches = new List<MatchResult> { Win, Win } };
 
         var ranking = _ranking.GetRanking(new List<Player> { merlin, lancelot });
 
@@ -37,14 +37,14 @@ public class RankingTests
             new[] { "Merlin", "Lancelot" },
             " égalité, l'ordre d'entrée doit être préservé (OrderByDescending est un tri stable)");
     }
-    
+
     [Fact]
     [Trait("Requirement", "REQ-E-012")]
     [Trait("TestCase", "TC-021")]
     public void GetChampion_ReturnsHighestScoringPlayer()
     {
         var merlin = new Player { Name = "Merlin", Matches = new List<MatchResult> { Win, Win, Win } };
-        var blackKnight   = new Player { Name = "Chevalier Noir",   Matches = new List<MatchResult> { Win, Win, Draw } };
+        var blackKnight = new Player { Name = "Chevalier Noir", Matches = new List<MatchResult> { Win, Win, Draw } };
         var lancelot = new Player { Name = "Lancelot", Matches = new List<MatchResult> { Win, Draw, Loss } };
 
         var champion = _ranking.GetChampion(new List<Player> { merlin, blackKnight, lancelot });

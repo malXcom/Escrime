@@ -70,7 +70,7 @@ public class PlayersController : ControllerBase
 
         player.PenaltyPoints = penaltyPoints;
         player.IsDisqualified = isDisqualified;
-        
+
         await _context.SaveChangesAsync();
 
         return NoContent();
