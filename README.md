@@ -1,3 +1,5 @@
+[![CI](https://github.com/malXcom/Escrime/actions/workflows/ci.yml/badge.svg)](https://github.com/malXcom/Escrime/actions/workflows/ci.yml)
+
 # ⚔️ EscrimeGame
 
 > Moteur de jeu d'escrime en .NET 9 avec API ASP.NET Core et interface Vite/TypeScript.
