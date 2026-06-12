@@ -22,4 +22,15 @@ public class GuardAndEdgeCaseTests
 
         score.Should().Be(0, "aucun combat → aucun point");
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-008")]
+    [Trait("TestCase", "TC-016")]
+    public void CalculateScore_NullList_ThrowsArgumentNullException()
+    {
+        Action act = () => _calculator.CalculateScore(null!);
+
+        act.Should().Throw<ArgumentNullException>()
+           .WithParameterName("matches");
+    }
 }
