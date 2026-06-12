@@ -1,7 +1,5 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
-using System.Collections.Generic;
 using static EscrimeGame.Tests.MatchResults;
 
 namespace EscrimeGame.Tests;
@@ -67,7 +65,7 @@ public class StreakBonusTests
         {
             Win, Win, Win,
             Loss,
-            Win, Win, Win, Win,
+            Win, Win, Win, Win
         };
 
         var score = _calculator.CalculateScore(matches);

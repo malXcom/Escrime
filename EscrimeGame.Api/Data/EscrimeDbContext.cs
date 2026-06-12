@@ -1,4 +1,3 @@
-using EscrimeGame;
 using Microsoft.EntityFrameworkCore;
 
 namespace EscrimeGame.Api.Data;

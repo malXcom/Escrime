@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace EscrimeGame;
 
 public class TournamentRanking
@@ -13,7 +10,7 @@ public class TournamentRanking
     }
 
     /// <summary>
-    /// Classe les joueurs par score décroissant
+    ///     Classe les joueurs par score décroissant
     /// </summary>
     public List<Player> GetRanking(List<Player> players)
     {
@@ -26,7 +23,7 @@ public class TournamentRanking
     }
 
     /// <summary>
-    /// Trouve le champion (joueur avec le meilleur score)
+    ///     Trouve le champion (joueur avec le meilleur score)
     /// </summary>
     public Player? GetChampion(List<Player> players)
     {

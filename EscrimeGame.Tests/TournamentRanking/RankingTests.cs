@@ -1,4 +1,3 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
 using static EscrimeGame.Tests.MatchResults;

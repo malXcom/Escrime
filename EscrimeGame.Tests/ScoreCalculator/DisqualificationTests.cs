@@ -1,7 +1,5 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
-using System.Collections.Generic;
 using static EscrimeGame.Tests.MatchResults;
 
 namespace EscrimeGame.Tests;
@@ -17,7 +15,7 @@ public class DisqualificationTests
     {
         var matches = new List<MatchResult> { Win, Win, Win };
 
-        var score = _calculator.CalculateScore(matches, isDisqualified: true);
+        var score = _calculator.CalculateScore(matches, true);
 
         score.Should().Be(0, "la disqualification annule un score pourtant positif (14)");
     }
@@ -29,7 +27,7 @@ public class DisqualificationTests
     {
         var matches = new List<MatchResult>();
 
-        var score = _calculator.CalculateScore(matches, isDisqualified: true);
+        var score = _calculator.CalculateScore(matches, true);
 
         score.Should().Be(0);
     }

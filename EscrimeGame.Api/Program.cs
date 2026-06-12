@@ -1,5 +1,5 @@
-using EscrimeGame.Api.Data;
 using EscrimeGame;
+using EscrimeGame.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,10 +14,7 @@ builder.Services.AddDbContext<EscrimeDbContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
+    options.AddDefaultPolicy(policy => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
 });
 
 // Register domain services
@@ -27,10 +24,7 @@ builder.Services.AddScoped<TournamentRanking>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseHttpsRedirection();
 
@@ -53,11 +47,11 @@ using (var scope = app.Services.CreateScope())
     {
         var heroes = new List<Player>
         {
-            new Player { Name = "Sir Galahad", CharacterClass = "Paladin", Icon = "🛡️" },
-            new Player { Name = "Dame Morgane", CharacterClass = "Mage", Icon = "🧙‍♀️" },
-            new Player { Name = "Chevalier Noir", CharacterClass = "Chevalier Obscur", Icon = "🗡️" },
-            new Player { Name = "Lancelot", CharacterClass = "Chevalier", Icon = "⚔️" },
-            new Player { Name = "Merlin", CharacterClass = "Enchanteur", Icon = "🔮" }
+            new() { Name = "Sir Galahad", CharacterClass = "Paladin", Icon = "🛡️" },
+            new() { Name = "Dame Morgane", CharacterClass = "Mage", Icon = "🧙‍♀️" },
+            new() { Name = "Chevalier Noir", CharacterClass = "Chevalier Obscur", Icon = "🗡️" },
+            new() { Name = "Lancelot", CharacterClass = "Chevalier", Icon = "⚔️" },
+            new() { Name = "Merlin", CharacterClass = "Enchanteur", Icon = "🔮" }
         };
         context.Players.AddRange(heroes);
         context.SaveChanges();

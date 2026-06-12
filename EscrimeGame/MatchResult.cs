@@ -4,15 +4,10 @@ public class MatchResult
 {
     public enum Result
     {
-        Win,   // Victoire
-        Draw,  // Match nul
-        Loss   // Défaite
+        Win, // Victoire
+        Draw, // Match nul
+        Loss // Défaite
     }
-
-    public int Id { get; set; }
-    public int PlayerId { get; set; }
-
-    public Result Outcome { get; set; }
 
     // Constructeur pour faciliter les tests
     public MatchResult(Result outcome)
@@ -21,5 +16,12 @@ public class MatchResult
     }
 
     // Constructeur par défaut
-    public MatchResult() { }
+    public MatchResult()
+    {
+    }
+
+    public int Id { get; set; }
+    public int PlayerId { get; set; }
+
+    public Result Outcome { get; set; }
 }

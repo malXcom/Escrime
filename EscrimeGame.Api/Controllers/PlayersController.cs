@@ -26,10 +26,7 @@ public class PlayersController : ControllerBase
     {
         var player = await _context.Players.Include(p => p.Matches).FirstOrDefaultAsync(p => p.Id == id);
 
-        if (player == null)
-        {
-            return NotFound();
-        }
+        if (player == null) return NotFound();
 
         return player;
     }
@@ -47,10 +44,7 @@ public class PlayersController : ControllerBase
     public async Task<IActionResult> AddMatch(int id, MatchResult matchResult)
     {
         var player = await _context.Players.FindAsync(id);
-        if (player == null)
-        {
-            return NotFound("Player not found");
-        }
+        if (player == null) return NotFound("Player not found");
 
         matchResult.PlayerId = id;
         _context.Matches.Add(matchResult);
@@ -63,10 +57,7 @@ public class PlayersController : ControllerBase
     public async Task<IActionResult> UpdatePenalty(int id, int penaltyPoints, bool isDisqualified)
     {
         var player = await _context.Players.FindAsync(id);
-        if (player == null)
-        {
-            return NotFound();
-        }
+        if (player == null) return NotFound();
 
         player.PenaltyPoints = penaltyPoints;
         player.IsDisqualified = isDisqualified;

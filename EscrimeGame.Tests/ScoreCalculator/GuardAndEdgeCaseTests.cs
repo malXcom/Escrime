@@ -1,8 +1,5 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
-using System;
-using System.Collections.Generic;
 using static EscrimeGame.Tests.MatchResults;
 
 namespace EscrimeGame.Tests;
@@ -31,7 +28,7 @@ public class GuardAndEdgeCaseTests
         Action act = () => _calculator.CalculateScore(null!);
 
         act.Should().Throw<ArgumentNullException>()
-           .WithParameterName("matches");
+            .WithParameterName("matches");
     }
 
     [Fact]
@@ -44,6 +41,6 @@ public class GuardAndEdgeCaseTests
         Action act = () => _calculator.CalculateScore(matches, penaltyPoints: -5);
 
         act.Should().Throw<ArgumentException>()
-           .WithParameterName("penaltyPoints");
+            .WithParameterName("penaltyPoints");
     }
 }

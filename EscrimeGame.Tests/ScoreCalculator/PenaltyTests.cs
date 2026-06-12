@@ -1,7 +1,5 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
-using System.Collections.Generic;
 using static EscrimeGame.Tests.MatchResults;
 
 namespace EscrimeGame.Tests;

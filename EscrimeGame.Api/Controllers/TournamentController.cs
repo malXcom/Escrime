@@ -39,10 +39,7 @@ public class TournamentController : ControllerBase
         var players = await _context.Players.Include(p => p.Matches).ToListAsync();
         var champion = _ranking.GetChampion(players);
 
-        if (champion == null)
-        {
-            return NotFound("No champion found. The tournament might be empty.");
-        }
+        if (champion == null) return NotFound("No champion found. The tournament might be empty.");
 
         return Ok(champion);
     }
@@ -58,11 +55,11 @@ public class TournamentController : ControllerBase
         // Add default heroes
         var heroes = new List<Player>
         {
-            new Player { Name = "Sir Galahad", CharacterClass = "Paladin", Icon = "🛡️" },
-            new Player { Name = "Dame Morgane", CharacterClass = "Mage", Icon = "🧙‍♀️" },
-            new Player { Name = "Chevalier Noir", CharacterClass = "Chevalier Obscur", Icon = "🗡️" },
-            new Player { Name = "Lancelot", CharacterClass = "Chevalier", Icon = "⚔️" },
-            new Player { Name = "Merlin", CharacterClass = "Enchanteur", Icon = "🔮" }
+            new() { Name = "Sir Galahad", CharacterClass = "Paladin", Icon = "🛡️" },
+            new() { Name = "Dame Morgane", CharacterClass = "Mage", Icon = "🧙‍♀️" },
+            new() { Name = "Chevalier Noir", CharacterClass = "Chevalier Obscur", Icon = "🗡️" },
+            new() { Name = "Lancelot", CharacterClass = "Chevalier", Icon = "⚔️" },
+            new() { Name = "Merlin", CharacterClass = "Enchanteur", Icon = "🔮" }
         };
 
         _context.Players.AddRange(heroes);
@@ -75,15 +72,12 @@ public class TournamentController : ControllerBase
     public async Task<IActionResult> SimulateMatch()
     {
         var players = await _context.Players.ToListAsync();
-        if (players.Count < 2)
-        {
-            return BadRequest("Pas assez de joueurs pour faire un combat.");
-        }
+        if (players.Count < 2) return BadRequest("Pas assez de joueurs pour faire un combat.");
 
         var random = new Random();
 
         // Tirer deux joueurs au hasard
-        int index1 = random.Next(players.Count);
+        var index1 = random.Next(players.Count);
         int index2;
         do
         {
@@ -106,11 +100,14 @@ public class TournamentController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        string resultMessage = outcome1 == MatchResult.Result.Draw
+        var resultMessage = outcome1 == MatchResult.Result.Draw
             ? $"{p1.Name} a fait match nul contre {p2.Name}."
-            : (outcome1 == MatchResult.Result.Win ? $"{p1.Name} a vaincu {p2.Name} !" : $"{p2.Name} a vaincu {p1.Name} !");
+            : outcome1 == MatchResult.Result.Win
+                ? $"{p1.Name} a vaincu {p2.Name} !"
+                : $"{p2.Name} a vaincu {p1.Name} !";
 
-        return Ok(new { message = resultMessage, match = new { p1 = p1.Name, p2 = p2.Name, p1Result = outcome1.ToString() } });
+        return Ok(new
+            { message = resultMessage, match = new { p1 = p1.Name, p2 = p2.Name, p1Result = outcome1.ToString() } });
     }
 
     [HttpPost("play-match")]

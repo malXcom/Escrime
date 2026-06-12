@@ -1,8 +1,9 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
 using static EscrimeGame.Tests.MatchResults;
+
 namespace EscrimeGame.Tests;
+
 public class BaseScoringTests
 {
     private readonly ScoreCalculator _calculator = new();

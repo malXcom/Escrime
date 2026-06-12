@@ -1,7 +1,5 @@
-using EscrimeGame;
 using FluentAssertions;
 using Xunit;
-using System.Collections.Generic;
 using static EscrimeGame.Tests.MatchResults;
 
 namespace EscrimeGame.Tests;
@@ -23,9 +21,9 @@ public class ChampionTests
     {
         var players = new List<Player>
         {
-            new Player { Name = "Sir Galahad", Matches = new List<MatchResult> { Win, Win, Win }, IsDisqualified = true },
-            new Player { Name = "Lancelot",   Matches = new List<MatchResult> { Win, Win }, IsDisqualified = true },
-            new Player { Name = "Dame Morgane", Matches = new List<MatchResult> { Win }, IsDisqualified = true },
+            new() { Name = "Sir Galahad", Matches = new List<MatchResult> { Win, Win, Win }, IsDisqualified = true },
+            new() { Name = "Lancelot", Matches = new List<MatchResult> { Win, Win }, IsDisqualified = true },
+            new() { Name = "Dame Morgane", Matches = new List<MatchResult> { Win }, IsDisqualified = true }
         };
 
         var champion = _ranking.GetChampion(players);
@@ -34,8 +32,8 @@ public class ChampionTests
 
         var championScore = _calculator.CalculateScore(
             champion!.Matches,
-            isDisqualified: champion.IsDisqualified,
-            penaltyPoints: champion.PenaltyPoints);
+            champion.IsDisqualified,
+            champion.PenaltyPoints);
 
         championScore.Should().Be(0, "tous disqualifiés → meilleur score possible = 0");
     }
@@ -48,8 +46,8 @@ public class ChampionTests
         var match = new MatchResult { Outcome = MatchResult.Result.Win };
         var players = new List<Player>
         {
-            new Player { Id = 1, Name = "Sir Galahad", Matches = new List<MatchResult> { match } },
-            new Player { Id = 2, Name = "Lancelot", Matches = new List<MatchResult>() },
+            new() { Id = 1, Name = "Sir Galahad", Matches = new List<MatchResult> { match } },
+            new() { Id = 2, Name = "Lancelot", Matches = new List<MatchResult>() }
         };
 
         var champion = _ranking.GetChampion(players);
