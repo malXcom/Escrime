@@ -39,7 +39,7 @@ public class RankingTests
     }
     
     [Fact]
-    [Trait("Requirement", "REQ-E-013")]
+    [Trait("Requirement", "REQ-E-012")]
     [Trait("TestCase", "TC-021")]
     public void GetChampion_ReturnsHighestScoringPlayer()
     {
@@ -51,5 +51,36 @@ public class RankingTests
 
         champion.Should().NotBeNull();
         champion!.Name.Should().Be("Merlin", "14 est le score le plus élevé");
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-012")]
+    [Trait("TestCase", "TC-022")]
+    public void GetRanking_NullPlayers_ReturnsEmptyList()
+    {
+        var ranking = _ranking.GetRanking(null!);
+
+        ranking.Should().NotBeNull();
+        ranking.Should().BeEmpty("une liste null doit retourner une liste vide");
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-012")]
+    [Trait("TestCase", "TC-023")]
+    public void GetChampion_NullPlayers_ReturnsNull()
+    {
+        var champion = _ranking.GetChampion(null!);
+
+        champion.Should().BeNull("aucun champion possible si la liste est null");
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-012")]
+    [Trait("TestCase", "TC-024")]
+    public void GetChampion_EmptyList_ReturnsNull()
+    {
+        var champion = _ranking.GetChampion(new List<Player>());
+
+        champion.Should().BeNull("aucun champion possible si la liste est vide");
     }
 }
