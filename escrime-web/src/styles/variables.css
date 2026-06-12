@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ══════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════ */
+:root {
+  --dark-wine:        #6f1d1b;
+  --camel:            #bb9457;
+  --dark-coffee:      #432818;
+  --chocolate-brown:  #99582a;
+  --light-apricot:    #ffe6a7;
+
+  /* Dérivées */
+  --bg-base:          #1a0a06;
+  --bg-surface:       #2c1208;
+  --border-subtle:    rgba(187, 148, 87, 0.2);
+  --border-strong:    rgba(187, 148, 87, 0.5);
+  --text-primary:     var(--light-apricot);
+  --text-muted:       rgba(255, 230, 167, 0.55);
+  --shadow-warm:      rgba(111, 29, 27, 0.5);
+  --shadow-gold:      rgba(187, 148, 87, 0.3);
+
+  font-family: 'Inter', system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
