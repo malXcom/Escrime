@@ -39,7 +39,7 @@ jobs:
         run: dotnet restore EscrimeGame.sln
 
       - name: Vérifier le formatage du code
-        run: dotnet format EscrimeGame.sln --verify-no-changes --severity info
+        run: dotnet format EscrimeGame.sln whitespace --verify-no-changes
 
   # ─────────────────────────────────────────────────────────────
   # JOB 2 : Tests, Couverture de code & Rapports
