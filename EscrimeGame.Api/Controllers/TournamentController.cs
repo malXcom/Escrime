@@ -107,7 +107,7 @@ public class TournamentController : ControllerBase
                 : $"{p2.Name} a vaincu {p1.Name} !";
 
         return Ok(new
-            { message = resultMessage, match = new { p1 = p1.Name, p2 = p2.Name, p1Result = outcome1.ToString() } });
+        { message = resultMessage, match = new { p1 = p1.Name, p2 = p2.Name, p1Result = outcome1.ToString() } });
     }
 
     [HttpPost("play-match")]
